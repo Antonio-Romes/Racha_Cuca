@@ -60,7 +60,7 @@ function recortarImagem(imagem, dimensaoDoTabuleiro) {
         img.addEventListener('click', function() { 
 
           let spanContadorDeJogada = document.getElementById("contadorDeJogada"); 
-          spanContadorDeJogada.textContent = contadorDeJogada++;
+          spanContadorDeJogada.textContent = "Total de jogodas : "+ contadorDeJogada++;
           var tabuleiro = document.getElementById("tabuleiro");
 
           // Supondo que você queira a célula da terceira linha e segunda coluna
@@ -213,10 +213,15 @@ function recortarImagem(imagem, dimensaoDoTabuleiro) {
 
   const iniciarJogo = () => {
     limparTabuleiro();
-    let dimensaoDoTabuleiro =  dimensaoTabuleiroPorNivelDifculdade();
+    mostrarTabuleiro();
+    mostrarOuOcultarBotoes();
+    criarTabuleiroComImagem(); 
+  }
 
+  const criarTabuleiroComImagem = () => {
+    let dimensaoDoTabuleiro =  dimensaoTabuleiroPorNivelDifculdade();
     let imagemSelecionada = new Image();
-     imagemSelecionada.src = pegarSrcDaImagemSelecionada();
+    imagemSelecionada.src = pegarSrcDaImagemSelecionada();
 
     let partesRecortadas = recortarImagem(imagemSelecionada, dimensaoDoTabuleiro);
     let  partesEmbaralhadas = embaralharPartes(partesRecortadas);
@@ -226,12 +231,8 @@ function recortarImagem(imagem, dimensaoDoTabuleiro) {
   const limparTabuleiro = () => {
     let  tabuleiro = document.getElementById("tabuleiro");
     tabuleiro.innerHTML = "";
-  }
-
-  $( document ).ready(function() {
-    iniciarJogo();
-});
-
+  } 
+ 
 const dimensaoTabuleiroPorNivelDifculdade = () => {
   let radios = document.getElementsByName('nivel');
   let srcDaImagemSelecionada = pegarSrcDaImagemSelecionada();
@@ -252,4 +253,45 @@ const pegarSrcDaImagemSelecionada = () => {
           return imagemSelecionada.attributes.src.value ;
       }
   }
+}
+
+const mostrarTabuleiro = () =>{
+  mostrarOuOcultarElemento();
+}
+
+const configurarJogo = () =>{
+  mostrarOuOcultarElemento();
+  mostrarOuOcultarBotoes();
+}
+
+const mostrarOuOcultarElemento = () => {
+  let  secaoTabuleiro = document.getElementById("secaoTabuleiro");
+  let  secaoConfiguracao = document.getElementById("secaoConfiguracao");
+
+  secaoTabuleiro.toggleAttribute("hidden");
+  secaoConfiguracao.toggleAttribute("hidden");
+}
+
+const mostrarOuOcultarBotoes = () => {
+  let configurarJogo = document.getElementById("configurarJogo");
+  let reiniciarJogo = document.getElementById("reiniciarJogo");
+  let iniciarJogo = document.getElementById("iniciarJogo");
+  let contadorDeJogada = document.getElementById("contadorDeJogada");
+
+  configurarJogo.toggleAttribute("hidden");
+  reiniciarJogo.toggleAttribute("hidden");
+  iniciarJogo.toggleAttribute("hidden");
+  contadorDeJogada.toggleAttribute("hidden");
+}
+
+const reiniciarJogo = () =>{
+  limparTabuleiro();
+  criarTabuleiroComImagem();
+  zeraContadorDeJogada();
+}
+
+const zeraContadorDeJogada = () =>{
+  contadorDeJogada = 0 ;
+  let spanContadorDeJogada = document.getElementById("contadorDeJogada"); 
+      spanContadorDeJogada.textContent = "Total de jogodas : " + contadorDeJogada;
 }
