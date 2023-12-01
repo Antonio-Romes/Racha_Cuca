@@ -26,31 +26,30 @@ function recortarImagem(imagem, dimensaoDoTabuleiro) {
   
   // Função para embaralhar a ordem das partes
   function embaralharPartes(partes) {
-    var partesEmbaralhadas = partes.slice(); // Faz uma cópia das partes
+    let partesEmbaralhadas = partes.slice(); // Faz uma cópia das partes
   
-    for (var i = partesEmbaralhadas.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = partesEmbaralhadas[i];
+    for (let i = partesEmbaralhadas.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      let temp = partesEmbaralhadas[i];
       partesEmbaralhadas[i] = partesEmbaralhadas[j];
       partesEmbaralhadas[j] = temp;
     }
   
     return partesEmbaralhadas;
   }
-  
-  // Função para adicionar as partes recortadas em uma matriz de forma aleatória e exibi-las na tabela HTML
+   
   function adicionarPartesNaMatriz(partes,dimensaoDoTabuleiro) {
-    var tabuleiro = document.getElementById('tabuleiro');
+    let tabuleiro = document.getElementById('tabuleiro');
   
-    var matriz = [];
-    var index = 0;
+    let matriz = [];
+    let index = 0;
   
-    for (var i = 0; i < dimensaoDoTabuleiro; i++) {
-      var linha = document.createElement('tr'); 
-      for (var j = 0; j < dimensaoDoTabuleiro; j++) {
-        var celula = document.createElement('td');  
+    for (let i = 0; i < dimensaoDoTabuleiro; i++) {
+      let linha = document.createElement('tr'); 
+      for (let j = 0; j < dimensaoDoTabuleiro; j++) {
+        let celula = document.createElement('td');  
         celula.setAttribute('posicaoDaCelulaNaTabela', index);
-        var img = document.createElement('img');
+        let img = document.createElement('img');
        
         img.src = partes[index].src;
         img.className = 'parte-imagem';
@@ -61,92 +60,25 @@ function recortarImagem(imagem, dimensaoDoTabuleiro) {
 
           let spanContadorDeJogada = document.getElementById("contadorDeJogada"); 
           spanContadorDeJogada.textContent = "Total de jogodas : "+ contadorDeJogada++;
-          var tabuleiro = document.getElementById("tabuleiro");
-
-          // Supondo que você queira a célula da terceira linha e segunda coluna
-          var linha = $(this).attr('linha');  
-          var coluna = $(this).attr('coluna'); 
-
-          // linha 
-           
-          var celula = tabuleiro.rows[linha].cells[coluna];
+          let tabuleiro = document.getElementById("tabuleiro");
+ 
+          let linha = $(this).attr('linha');  
+          let coluna = $(this).attr('coluna'); 
+ 
+          let celula = tabuleiro.rows[linha].cells[coluna];
           let celulaEsquerda = tabuleiro.rows[linha].cells[parseInt(coluna) -1 ] != undefined ? tabuleiro.rows[linha].cells[parseInt(coluna) -1 ] : null;
           let celulaDireita =  tabuleiro.rows[linha].cells[parseInt(coluna) + 1 ] != undefined ? tabuleiro.rows[linha].cells[parseInt(coluna) + 1]: null;
           let celulaAcima = tabuleiro.rows[parseInt(linha) - 1] != undefined ? tabuleiro.rows[parseInt(linha) - 1].cells[coluna] : null;
           let celulaAbaixo = tabuleiro.rows[parseInt(linha) + 1] != undefined ? tabuleiro.rows[parseInt(linha) + 1].cells[coluna] : null;
 
-            
+          trocarImagemDePosicao(celula,celulaEsquerda);  
+          trocarImagemDePosicao(celula,celulaDireita);  
+          trocarImagemDePosicao(celula,celulaAcima);  
+          trocarImagemDePosicao(celula,celulaAbaixo);  
           
-          if(celulaEsquerda != null){
-            var xxx = celulaEsquerda.children[0];
-            if(xxx.attributes['src'].value == ""){
- 
-               let imagemClicada = celula.children[0];
-               let imagemDataBase = imagemClicada.attributes['src'].value;
-               let imagemFilha = imagemClicada.attributes.posicaodaceluladaimagemnatabela.value;
-               let imagemPai = xxx.attributes.posicaodaceluladaimagemnatabela.value;
-
-               xxx.attributes['src'].value = imagemDataBase;
-               xxx.attributes.posicaodaceluladaimagemnatabela.value = imagemFilha;
-
-               imagemClicada.attributes['src'].value = "";
-               imagemClicada.attributes.posicaodaceluladaimagemnatabela.value = imagemPai;
-            }
-          }
-
-          if(celulaDireita != null){
-            var xxx = celulaDireita.children[0];
-            if(xxx.attributes['src'].value == ""){
-              let imagemClicada = celula.children[0];
-              let imagemDataBase = imagemClicada.attributes['src'].value;
-              let imagemFilha = imagemClicada.attributes.posicaodaceluladaimagemnatabela.value;
-              let imagemPai = xxx.attributes.posicaodaceluladaimagemnatabela.value;
-
-              xxx.attributes['src'].value = imagemDataBase;
-              xxx.attributes.posicaodaceluladaimagemnatabela.value = imagemFilha;
-
-              imagemClicada.attributes['src'].value = "";
-              imagemClicada.attributes.posicaodaceluladaimagemnatabela.value = imagemPai;
-
-
-            }
-          }
-
-          if(celulaAcima != null){
-            var xxx = celulaAcima.children[0];
-            if(xxx.attributes['src'].value == ""){
-              let imagemClicada = celula.children[0];
-               let imagemDataBase = imagemClicada.attributes['src'].value;
-               let imagemFilha = imagemClicada.attributes.posicaodaceluladaimagemnatabela.value;
-               let imagemPai = xxx.attributes.posicaodaceluladaimagemnatabela.value;
-
-               xxx.attributes['src'].value = imagemDataBase;
-               xxx.attributes.posicaodaceluladaimagemnatabela.value = imagemFilha;
-
-               imagemClicada.attributes['src'].value = "";
-               imagemClicada.attributes.posicaodaceluladaimagemnatabela.value = imagemPai;
-            }
-          }
-
-          if(celulaAbaixo != null){
-            var xxx = celulaAbaixo.children[0]; 
-            if(xxx.attributes['src'].value == ""){
-              let imagemClicada = celula.children[0];
-              let imagemDataBase = imagemClicada.attributes['src'].value;
-              let imagemFilha = imagemClicada.attributes.posicaodaceluladaimagemnatabela.value;
-              let imagemPai = xxx.attributes.posicaodaceluladaimagemnatabela.value;
-
-              xxx.attributes['src'].value = imagemDataBase;
-              xxx.attributes.posicaodaceluladaimagemnatabela.value = imagemFilha;
-
-              imagemClicada.attributes['src'].value = "";
-              imagemClicada.attributes.posicaodaceluladaimagemnatabela.value = imagemPai;
-            }
-          }
-          
-          let ganhouOJogo = verificarSeGanhou();
-          if (ganhouOJogo) {
-            alert("Parabéns! Você Ganhou!");
+          let ganhou = verificarSeGanhou();
+          if (ganhou) {
+            ganhouOJogo(); 
           }
         });
         celula.appendChild(img);
@@ -159,42 +91,16 @@ function recortarImagem(imagem, dimensaoDoTabuleiro) {
   
     return matriz;
   }
-  
-  let larguraDaImagem;
-  let alturaDaImagem;
-  // Exemplo de uso
-  var imagemOriginal = new Image();
-  imagemOriginal.src = 'img/imges.jpg';
-  
- // imagemOriginal.onload = function() {
- //   var partesRecortadas = recortarImagem(imagemOriginal);
- //   var partesEmbaralhadas = embaralharPartes(partesRecortadas);
- //   var matrizPartes = adicionarPartesNaMatriz(partesEmbaralhadas); 
- // };
-
-  const ola = () => {
-    var tabela = document.getElementById("tabuleiro");
-    tabela.innerHTML = "";
-    tabela.style.backgroundImage = "url('img/imges.jpg')"; 
-    // Define outras propriedades de estilo, se necessário
-    tabela.style.width = larguraDaImagem+"px";
-    tabela.style.height = alturaDaImagem+"px";
-  }
+    
   
  let contadorDeJogada = 1;
 
   const verificarSeGanhou = () => {
-    var tabuleiro = document.getElementById("tabuleiro");
-
-    // Obtém todas as linhas da tabela
+    var tabuleiro = document.getElementById("tabuleiro"); 
     var linhas = tabuleiro.getElementsByTagName("tr");
-    let ganhouOJogo = false;
-    // Itera sobre as linhas
-    for (var i = 0; i < linhas.length; i++) {
-        // Obtém todas as células da linha atual
-        var celulas = linhas[i].getElementsByTagName("td");
-
-         
+    let ganhouOJogo = false; 
+    for (var i = 0; i < linhas.length; i++) { 
+        var celulas = linhas[i].getElementsByTagName("td"); 
           for (var j = 0; j < celulas.length; j++) {
             let posicaoDaCelula = linhas[i].cells[j].attributes.posicaodacelulanatabela.value;
             let posicaoDaImagem = celulas[j].children[0].attributes.posicaodaceluladaimagemnatabela.value
@@ -204,8 +110,7 @@ function recortarImagem(imagem, dimensaoDoTabuleiro) {
             if(!ganhouOJogo){
               return ganhouOJogo;
             }
-          } 
-           
+          }  
     }
 
     return ganhouOJogo;
@@ -267,21 +172,23 @@ const configurarJogo = () =>{
 const mostrarOuOcultarElemento = () => {
   let  secaoTabuleiro = document.getElementById("secaoTabuleiro");
   let  secaoConfiguracao = document.getElementById("secaoConfiguracao");
+  let  imagemAjudar = document.getElementById("imagemAjudar");
 
   secaoTabuleiro.toggleAttribute("hidden");
   secaoConfiguracao.toggleAttribute("hidden");
+  imagemAjudar.toggleAttribute("hidden"); 
 }
 
 const mostrarOuOcultarBotoes = () => {
   let configurarJogo = document.getElementById("configurarJogo");
   let reiniciarJogo = document.getElementById("reiniciarJogo");
   let iniciarJogo = document.getElementById("iniciarJogo");
-  let contadorDeJogada = document.getElementById("contadorDeJogada");
+  let contadorDeJogada = document.getElementById("contadorDeJogada"); 
 
   configurarJogo.toggleAttribute("hidden");
   reiniciarJogo.toggleAttribute("hidden");
   iniciarJogo.toggleAttribute("hidden");
-  contadorDeJogada.toggleAttribute("hidden");
+  contadorDeJogada.toggleAttribute("hidden"); 
 }
 
 const reiniciarJogo = () =>{
@@ -294,4 +201,33 @@ const zeraContadorDeJogada = () =>{
   contadorDeJogada = 0 ;
   let spanContadorDeJogada = document.getElementById("contadorDeJogada"); 
       spanContadorDeJogada.textContent = "Total de jogodas : " + contadorDeJogada;
+}
+
+const imagemAjudar = () => {
+  let imageAjuda = document.getElementById("imageAjuda"); 
+  imageAjuda.toggleAttribute("hidden"); 
+  imageAjuda.src = pegarSrcDaImagemSelecionada();
+}
+
+const ganhouOJogo = () => {
+  $('#modalGanhouOJogo').modal('show');
+}
+
+const trocarImagemDePosicao = (celula , celulaClicada) => {
+  if(celulaClicada != null){
+    var imagem = celulaClicada.children[0];
+    if(imagem.attributes['src'].value == ""){
+
+       let imagemClicada = celula.children[0];
+       let imagemDataBase = imagemClicada.attributes['src'].value;
+       let imagemFilha = imagemClicada.attributes.posicaodaceluladaimagemnatabela.value;
+       let imagemPai = imagem.attributes.posicaodaceluladaimagemnatabela.value;
+
+       imagem.attributes['src'].value = imagemDataBase;
+       imagem.attributes.posicaodaceluladaimagemnatabela.value = imagemFilha;
+
+       imagemClicada.attributes['src'].value = "";
+       imagemClicada.attributes.posicaodaceluladaimagemnatabela.value = imagemPai;
+    }
+  }
 }

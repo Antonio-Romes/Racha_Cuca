@@ -39,8 +39,8 @@
    align-items: center;
 }
 
-#secaoConfiguracao, #secaoTabuleiro{
-   width: 50%;
+#secaoConfiguracao, #secaoTabuleiro, #ImagemDeAjuda{
+   width: auto;
    height: 100%; 
    padding: 15px;
    border-radius: 15px;
@@ -48,14 +48,14 @@
    
 } 
 #tabuleiro{
-   position: relative;
-   left: 10%; 
+   position: relative; 
+   margin-right: 15px;
 }
 
  .parte-imagem {
     display: inline-block;
     margin: 1px;
   }
-
+ 
 
   

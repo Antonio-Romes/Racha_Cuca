@@ -12,6 +12,7 @@
     </head>
     <body>
         <main>
+            
             <header class="container-fluid pt-4 " >
                 <h1 class="text-center text-lg-center m-0">Racha a Cuca</h1> 
                     <hr> 
@@ -66,24 +67,47 @@
                             </div>
                         </div> 
                 </section>
-                <section id="secaoTabuleiro" hidden>
-                    <table id="tabuleiro" class="bg-light border border-black border-4 rounded-3 p-2 "></table>
+                
+                <section id="secaoTabuleiro"  hidden >
+                    <div class="row">
+                        <div class="col-6">
+                            <table id="tabuleiro" class="bg-light border border-black border-4 rounded-3 p-2 "></table>
+                        </div>
+                        <div class="col-6">
+                            <img id="imageAjuda" src="" alt="" hidden>
+                        </div>
+                    </div> 
                 </section>
+                      
                 <section name="" id="" >
                     <div class="col-auto d-flex justify-content-center mt-4">
                         <button type="button" id="configurarJogo" onclick="configurarJogo()" class="btn btn-primary mx-1" hidden>Configuração</button>
                          <button type="button" id="contadorDeJogada"  class="btn btn-light mx-1 fs-4 fw-bold py-1"  hidden>Total de jogodas :<span id="contadorDeJogada" class="fs-4 fw-bold"> 0</span> </button>
                         <button type="button" id="reiniciarJogo" onclick="reiniciarJogo()" class="btn btn-primary mx-1" hidden>Reiniciar</button>
                         <button type="button" id="iniciarJogo" onclick="iniciarJogo()" class="btn btn-primary mx-1">Iniciar</button>
+                        <button type="button" id="imagemAjudar" onclick="imagemAjudar()" class="btn btn-primary mx-1" hidden>Ajudar</button>
                     </div>  
                 </section>
             </section> 
             
         </main> 
+        <div class="modal fade" id="modalGanhouOJogo" aria-hidden="true" aria-labelledby="modalGanhouOJogo" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-1" id="modalGanhouOJogo">Ganhou</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body fs-3 text-center">
+                  Parabéns, você ganhou !!!
+                </div> 
+              </div>
+            </div>
+          </div>
+       
         <script src="JS/jquery-3.6.0.min.js"></script>
         <script src="JS/bootstrap.min.js"></script>
         <script src="JS/main.js"></script>
-    </body>
-
+    </body> 
 </html>
  
