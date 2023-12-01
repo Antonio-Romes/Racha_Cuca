@@ -1,17 +1,17 @@
 // Função para recortar a imagem em 9 partes iguais
-function recortarImagem(imagem) {
+function recortarImagem(imagem, dimensaoDoTabuleiro) {
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
      larguraDaImagem = imagem.width;
      alturaDaImagem = imagem.height;
-     canvas.width = larguraDaImagem / 3;
-     canvas.height = alturaDaImagem / 3;
+     canvas.width = larguraDaImagem / dimensaoDoTabuleiro;
+     canvas.height = alturaDaImagem / dimensaoDoTabuleiro;
   
     var partes = [];
     
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < dimensaoDoTabuleiro; i++) {
       let posicaoImagem = i;
-      for (var j = 0; j < 3; j++) {
+      for (var j = 0; j < dimensaoDoTabuleiro; j++) {
         ctx.drawImage(imagem, i * canvas.width, j * canvas.height, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
         let urlImage = (i == 2 && j == 2) ? "" : canvas.toDataURL() ;
         partes.push({ 'posicaoImagem':posicaoImagem, src:  urlImage });
@@ -39,15 +39,15 @@ function recortarImagem(imagem) {
   }
   
   // Função para adicionar as partes recortadas em uma matriz de forma aleatória e exibi-las na tabela HTML
-  function adicionarPartesNaMatriz(partes) {
-    var tabela = document.getElementById('tabela');
+  function adicionarPartesNaMatriz(partes,dimensaoDoTabuleiro) {
+    var tabuleiro = document.getElementById('tabuleiro');
   
     var matriz = [];
     var index = 0;
   
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < dimensaoDoTabuleiro; i++) {
       var linha = document.createElement('tr'); 
-      for (var j = 0; j < 3; j++) {
+      for (var j = 0; j < dimensaoDoTabuleiro; j++) {
         var celula = document.createElement('td');  
         celula.setAttribute('posicaoDaCelulaNaTabela', index);
         var img = document.createElement('img');
@@ -57,10 +57,11 @@ function recortarImagem(imagem) {
         img.setAttribute('linha', i);
         img.setAttribute('coluna', j);  
         img.setAttribute('posicaoDaCelulaDaImagemNaTabela', partes[index].posicaoImagem);
-        img.addEventListener('click', function() {
-          var currentImg = $(this);
+        img.addEventListener('click', function() { 
 
-          var tabela = document.getElementById("tabela");
+          let spanContadorDeJogada = document.getElementById("contadorDeJogada"); 
+          spanContadorDeJogada.textContent = contadorDeJogada++;
+          var tabuleiro = document.getElementById("tabuleiro");
 
           // Supondo que você queira a célula da terceira linha e segunda coluna
           var linha = $(this).attr('linha');  
@@ -68,11 +69,11 @@ function recortarImagem(imagem) {
 
           // linha 
            
-          var celula = tabela.rows[linha].cells[coluna];
-          let celulaEsquerda = tabela.rows[linha].cells[parseInt(coluna) -1 ] != undefined ? tabela.rows[linha].cells[parseInt(coluna) -1 ] : null;
-          let celulaDireita =  tabela.rows[linha].cells[parseInt(coluna) + 1 ] != undefined ? tabela.rows[linha].cells[parseInt(coluna) + 1]: null;
-          let celulaAcima = tabela.rows[parseInt(linha) - 1] != undefined ? tabela.rows[parseInt(linha) - 1].cells[coluna] : null;
-          let celulaAbaixo = tabela.rows[parseInt(linha) + 1] != undefined ? tabela.rows[parseInt(linha) + 1].cells[coluna] : null;
+          var celula = tabuleiro.rows[linha].cells[coluna];
+          let celulaEsquerda = tabuleiro.rows[linha].cells[parseInt(coluna) -1 ] != undefined ? tabuleiro.rows[linha].cells[parseInt(coluna) -1 ] : null;
+          let celulaDireita =  tabuleiro.rows[linha].cells[parseInt(coluna) + 1 ] != undefined ? tabuleiro.rows[linha].cells[parseInt(coluna) + 1]: null;
+          let celulaAcima = tabuleiro.rows[parseInt(linha) - 1] != undefined ? tabuleiro.rows[parseInt(linha) - 1].cells[coluna] : null;
+          let celulaAbaixo = tabuleiro.rows[parseInt(linha) + 1] != undefined ? tabuleiro.rows[parseInt(linha) + 1].cells[coluna] : null;
 
             
           
@@ -153,7 +154,7 @@ function recortarImagem(imagem) {
         index++; 
       }
      
-      tabela.appendChild(linha);
+      tabuleiro.appendChild(linha);
     }
   
     return matriz;
@@ -165,14 +166,14 @@ function recortarImagem(imagem) {
   var imagemOriginal = new Image();
   imagemOriginal.src = 'img/imges.jpg';
   
-  imagemOriginal.onload = function() {
-    var partesRecortadas = recortarImagem(imagemOriginal);
-    var partesEmbaralhadas = embaralharPartes(partesRecortadas);
-    var matrizPartes = adicionarPartesNaMatriz(partesEmbaralhadas); 
-  };
+ // imagemOriginal.onload = function() {
+ //   var partesRecortadas = recortarImagem(imagemOriginal);
+ //   var partesEmbaralhadas = embaralharPartes(partesRecortadas);
+ //   var matrizPartes = adicionarPartesNaMatriz(partesEmbaralhadas); 
+ // };
 
   const ola = () => {
-    var tabela = document.getElementById("tabela");
+    var tabela = document.getElementById("tabuleiro");
     tabela.innerHTML = "";
     tabela.style.backgroundImage = "url('img/imges.jpg')"; 
     // Define outras propriedades de estilo, se necessário
@@ -180,18 +181,13 @@ function recortarImagem(imagem) {
     tabela.style.height = alturaDaImagem+"px";
   }
   
-  const reiniciar = () => {
-    var tabela = document.getElementById("tabela");
-    tabela.style.backgroundImage = "url('')";
-    imagemOriginal.onload();
-    
-  }
+ let contadorDeJogada = 1;
 
   const verificarSeGanhou = () => {
-    var tabela = document.getElementById("tabela");
+    var tabuleiro = document.getElementById("tabuleiro");
 
     // Obtém todas as linhas da tabela
-    var linhas = tabela.getElementsByTagName("tr");
+    var linhas = tabuleiro.getElementsByTagName("tr");
     let ganhouOJogo = false;
     // Itera sobre as linhas
     for (var i = 0; i < linhas.length; i++) {
@@ -214,3 +210,46 @@ function recortarImagem(imagem) {
 
     return ganhouOJogo;
   }
+
+  const iniciarJogo = () => {
+    limparTabuleiro();
+    let dimensaoDoTabuleiro =  dimensaoTabuleiroPorNivelDifculdade();
+
+    let imagemSelecionada = new Image();
+     imagemSelecionada.src = pegarSrcDaImagemSelecionada();
+
+    let partesRecortadas = recortarImagem(imagemSelecionada, dimensaoDoTabuleiro);
+    let  partesEmbaralhadas = embaralharPartes(partesRecortadas);
+    adicionarPartesNaMatriz(partesEmbaralhadas,dimensaoDoTabuleiro);  
+  }
+
+  const limparTabuleiro = () => {
+    let  tabuleiro = document.getElementById("tabuleiro");
+    tabuleiro.innerHTML = "";
+  }
+
+  $( document ).ready(function() {
+    iniciarJogo();
+});
+
+const dimensaoTabuleiroPorNivelDifculdade = () => {
+  let radios = document.getElementsByName('nivel');
+  let srcDaImagemSelecionada = pegarSrcDaImagemSelecionada();
+
+  for (let i = 0; i < radios.length; i++) {
+      if (radios[i].checked) { 
+          return radios[i].value ;
+      }
+  }
+}
+
+const pegarSrcDaImagemSelecionada = () => {
+  let radioDaImagem = document.getElementsByName('image');
+
+  for (let i = 0; i < radioDaImagem.length; i++) {
+      if (radioDaImagem[i].checked) { 
+        let imagemSelecionada = radioDaImagem[i].nextElementSibling;
+          return imagemSelecionada.attributes.src.value ;
+      }
+  }
+}
