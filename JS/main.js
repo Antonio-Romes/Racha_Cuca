@@ -210,7 +210,7 @@ const imagemAjudar = () => {
 }
 
 const ganhouOJogo = () => {
-  $('#modalGanhouOJogo').modal('show');
+  $('#modalGanhouOJogo').modal('show'); 
 }
 
 const trocarImagemDePosicao = (celula , celulaClicada) => {
