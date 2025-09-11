@@ -26,6 +26,16 @@
                         <div class="panel-header">
                             <h2 id="boardHeading">Game Board</h2>
                             <div class="header-controls">
+                                <div class="header-stats">
+                                    <span class="header-stat">
+                                        <span class="stat-label">Moves:</span>
+                                        <span id="contadorDeJogada" class="stat-value">0</span>
+                                    </span>
+                                    <span class="header-stat">
+                                        <span class="stat-label">Time:</span>
+                                        <span id="timer" class="stat-value">00:00</span>
+                                    </span>
+                                </div>
                                 <button type="button" id="reiniciarJogo" onclick="reiniciarJogo()" class="btn btn-warning header-btn" aria-label="Restart game">
                                     Restart
                                 </button>
@@ -44,30 +54,6 @@
                             <div class="board-container">
                                 <div class="board-wrapper">
                                     <table id="tabuleiro" class="puzzle-board" aria-label="Puzzle board"></table>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="game-footer">
-                            <div class="game-stats">
-                                <div class="stat-card">
-                                    <div class="stat-header">
-                                        <span class="stat-icon">🔄</span>
-                                        <span class="stat-title">Moves</span>
-                                    </div>
-                                    <div class="stat-content">
-                                        <span id="contadorDeJogada" class="stat-value">0</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="stat-card">
-                                    <div class="stat-header">
-                                        <span class="stat-icon">⏱️</span>
-                                        <span class="stat-title">Time</span>
-                                    </div>
-                                    <div class="stat-content">
-                                        <span id="timer" class="stat-value">00:00</span>
-                                    </div>
                                 </div>
                             </div>
                         </div>

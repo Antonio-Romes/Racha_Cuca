@@ -175,6 +175,7 @@ class SlidingPuzzleGame {
     selectedImage.onload = () => {
       // Create empty board first
       const board = document.getElementById('tabuleiro');
+      board.setAttribute('data-size', this.boardSize);
       board.innerHTML = '';
       
       // Create rows and cells using DocumentFragment for better performance
@@ -200,6 +201,11 @@ class SlidingPuzzleGame {
         img.setAttribute('data-col', piece.col);
         img.setAttribute('data-image-position', piece.imagePosition);
         img.setAttribute('alt', `Puzzle piece at position ${piece.row},${piece.col}`);
+        
+        // Add visual indicator for empty cells
+        if (piece.src === "") {
+          img.classList.add('empty-cell');
+        }
         
         img.addEventListener('click', (event) => {
           this.handleImageClick(event);
@@ -456,8 +462,8 @@ class SlidingPuzzleGame {
         // Draw piece
         ctx.drawImage(
           image,
-          i * pieceWidth,
-          j * pieceHeight,
+          j * pieceWidth,
+          i * pieceHeight,
           pieceWidth,
           pieceHeight,
           0,
@@ -494,6 +500,7 @@ class SlidingPuzzleGame {
   // Add pieces to board using DocumentFragment for better performance
   addPiecesToBoard(pieces, boardDimension) {
     const board = document.getElementById('tabuleiro');
+    board.setAttribute('data-size', boardDimension);
     let index = 0;
 
     // Create all elements in a DocumentFragment first for better performance
@@ -512,6 +519,11 @@ class SlidingPuzzleGame {
         img.setAttribute('data-col', j);
         img.setAttribute('data-image-position', pieces[index].imagePosition);
         img.setAttribute('alt', `Puzzle piece at position ${i},${j}`);
+        
+        // Add visual indicator for empty cells
+        if (pieces[index].src === "") {
+          img.classList.add('empty-cell');
+        }
         
         img.addEventListener('click', (event) => {
           this.handleImageClick(event);
@@ -573,9 +585,13 @@ class SlidingPuzzleGame {
         // Swap images
         adjacentImg.src = clickedImgSrc;
         adjacentImg.setAttribute('data-image-position', clickedImgPosition);
+        // Remove empty cell class from adjacent cell and add to clicked cell
+        adjacentImg.classList.remove('empty-cell');
         
         clickedImg.src = "";
         clickedImg.setAttribute('data-image-position', adjacentImgPosition);
+        // Add empty cell class to clicked cell
+        clickedImg.classList.add('empty-cell');
         
         // Update focus to the moved piece
         const newRow = parseInt(adjacentImg.getAttribute('data-row'));
