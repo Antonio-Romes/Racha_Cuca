@@ -1,190 +1,354 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Racha Cuca - Professional Edition</title> 
-    <link rel="stylesheet" href="CSS/bootstrap.min.css">
-    <link rel="stylesheet" href="CSS/style.css"> 
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Racha Cuca - Professional Edition</title>
+    <link rel="stylesheet" href="CSS/bootstrap.min.css" />
+    <link rel="stylesheet" href="CSS/style.css" />
+  </head>
+  <body>
     <div class="app-container">
-        <header class="app-header">
-            <div class="container">
-                <div class="header-content">
-                    <h1 class="app-title">Racha Cuca</h1>
-                    <p class="app-subtitle">Slide Puzzle Game</p>
+      <header class="app-header">
+        <div class="container">
+          <div class="header-content">
+            <h1 class="app-title">Racha Cuca</h1>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-main">
+        <div class="container">
+          <section id="sectionJogo" class="game-section">
+            <!-- Game Board Panel (Main Screen) -->
+            <section
+              id="secaoTabuleiro"
+              class="game-panel"
+              aria-labelledby="boardHeading"
+            >
+              <div class="panel-header">
+                <h2 id="boardHeading">Game Board</h2>
+                <div class="header-controls">
+                  <div class="header-stats">
+                    <span class="header-stat">
+                      <span class="stat-label">Moves:</span>
+                      <span id="contadorDeJogada" class="stat-value">0</span>
+                    </span>
+                    <span class="header-stat">
+                      <span class="stat-label">Time:</span>
+                      <span id="timer" class="stat-value">00:00</span>
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    id="reiniciarJogo"
+                    onclick="reiniciarJogo()"
+                    class="btn btn-warning header-btn"
+                    aria-label="Restart game"
+                  >
+                    Restart
+                  </button>
+
+                  <button
+                    type="button"
+                    id="imagemAjudar"
+                    onclick="imagemAjudar()"
+                    class="btn btn-info header-btn"
+                    aria-label="Show help image"
+                  >
+                    Show Solution
+                  </button>
+
+                  <button
+                    type="button"
+                    id="openConfigBtn"
+                    onclick="openConfiguration()"
+                    class="btn btn-config header-btn"
+                    aria-label="Open configuration"
+                  >
+                    <span class="config-icon">⚙️</span> Settings
+                  </button>
                 </div>
-            </div>
-        </header>
+              </div>
 
-        <main class="app-main">
-            <div class="container">
-                <section id="sectionJogo" class="game-section">
-                    <!-- Game Board Panel (Main Screen) -->
-                    <section id="secaoTabuleiro" class="game-panel" aria-labelledby="boardHeading">
-                        <div class="panel-header">
-                            <h2 id="boardHeading">Game Board</h2>
-                            <div class="header-controls">
-                                <div class="header-stats">
-                                    <span class="header-stat">
-                                        <span class="stat-label">Moves:</span>
-                                        <span id="contadorDeJogada" class="stat-value">0</span>
-                                    </span>
-                                    <span class="header-stat">
-                                        <span class="stat-label">Time:</span>
-                                        <span id="timer" class="stat-value">00:00</span>
-                                    </span>
-                                </div>
-                                <button type="button" id="reiniciarJogo" onclick="reiniciarJogo()" class="btn btn-warning header-btn" aria-label="Restart game">
-                                    Restart
-                                </button>
-                                
-                                <button type="button" id="imagemAjudar" onclick="imagemAjudar()" class="btn btn-info header-btn" aria-label="Show help image">
-                                    Show Solution
-                                </button>
-                                
-                                <button type="button" id="openConfigBtn" onclick="openConfiguration()" class="btn btn-config header-btn" aria-label="Open configuration">
-                                    <span class="config-icon">⚙️</span> Settings
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="game-content">
-                            <div class="board-container">
-                                <div class="board-wrapper">
-                                    <table id="tabuleiro" class="puzzle-board" aria-label="Puzzle board"></table>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+              <div class="game-content">
+                <div class="board-container">
+                  <div class="board-wrapper">
+                    <table
+                      id="tabuleiro"
+                      class="puzzle-board"
+                      aria-label="Puzzle board"
+                    ></table>
+                  </div>
+                </div>
+              </div>
+            </section>
 
-                    <!-- Configuration Panel (Hidden by default) -->
-                    <section id="secaoConfiguracao" class="config-panel" hidden aria-labelledby="configHeading">
-                        <div class="panel-header">
-                            <h2 id="configHeading">Game Configuration</h2>
-                            <button type="button" id="closeConfigBtn" onclick="closeConfiguration()" class="btn btn-close-config" aria-label="Close configuration">
-                                ✕
-                            </button>
-                        </div>
-                        
-                        <div class="config-content">
-                            <div class="config-group">
-                                <h3>Difficulty Level</h3>
-                                <div class="difficulty-options">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="nivel" id="rdoFacil" value="3" checked>
-                                        <label class="form-check-label" for="rdoFacil">Easy (3x3)</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="nivel" id="rdoNormal" value="4">
-                                        <label class="form-check-label" for="rdoNormal">Normal (4x4)</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="nivel" id="rdoDificil" value="5">
-                                        <label class="form-check-label" for="rdoDificil">Hard (5x5)</label>
-                                    </div>
-                                </div>
-                            </div>
+            <!-- Configuration Panel (Hidden by default) -->
+            <section
+              id="secaoConfiguracao"
+              class="config-panel"
+              hidden
+              aria-labelledby="configHeading"
+            >
+              <div class="panel-header">
+                <h2 id="configHeading">Game Configuration</h2>
+                <button
+                  type="button"
+                  id="closeConfigBtn"
+                  onclick="closeConfiguration()"
+                  class="btn btn-close-config"
+                  aria-label="Close configuration"
+                >
+                  ✕
+                </button>
+              </div>
 
-                            <div class="config-group">
-                                <h3>Select Image</h3>
-                                <div class="image-selection">
-                                    <div class="image-grid">
-                                        <div class="image-option">
-                                            <input class="form-check-input" type="radio" name="image" id="image1" value="option1" checked>
-                                            <label for="image1" class="image-label">
-                                                <img src="img/imges.jpg" id="img1" class="thumbnail" alt="Puzzle image 1">
-                                            </label>
-                                        </div>
-                                        <div class="image-option">
-                                            <input class="form-check-input" type="radio" name="image" id="image2" value="option2">
-                                            <label for="image2" class="image-label">
-                                                <img src="img/imges2.jpg" id="img2" class="thumbnail" alt="Puzzle image 2">
-                                            </label>
-                                        </div>
-                                        <div class="image-option">
-                                            <input class="form-check-input" type="radio" name="image" id="image3" value="option3">
-                                            <label for="image3" class="image-label">
-                                                <img src="img/imges3.jpg" id="img3" class="thumbnail" alt="Puzzle image 3">
-                                            </label>
-                                        </div>
-                                        <div class="image-option">
-                                            <input class="form-check-input" type="radio" name="image" id="image4" value="option4">
-                                            <label for="image4" class="image-label">
-                                                <img src="img/imges4.jpg" id="img4" class="thumbnail" alt="Puzzle image 4">
-                                            </label>
-                                        </div>
-                                        <div class="image-option">
-                                            <input class="form-check-input" type="radio" name="image" id="image5" value="option5">
-                                            <label for="image5" class="image-label">
-                                                <img src="img/imges5.jpg" id="img5" class="thumbnail" alt="Puzzle image 5">
-                                            </label>
-                                        </div>
-                                        <div class="image-option">
-                                            <input class="form-check-input" type="radio" name="image" id="image6" value="option6">
-                                            <label for="image6" class="image-label">
-                                                <img src="img/imges6.jpg" id="img6" class="thumbnail" alt="Puzzle image 6">
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="config-content">
+                <div class="config-group">
+                  <h3>Difficulty Level</h3>
+                  <div class="difficulty-options">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="nivel"
+                        id="rdoFacil"
+                        value="3"
+                        checked
+                      />
+                      <label class="form-check-label" for="rdoFacil"
+                        >Easy (3x3)</label
+                      >
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="nivel"
+                        id="rdoNormal"
+                        value="4"
+                      />
+                      <label class="form-check-label" for="rdoNormal"
+                        >Normal (4x4)</label
+                      >
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="nivel"
+                        id="rdoDificil"
+                        value="5"
+                      />
+                      <label class="form-check-label" for="rdoDificil"
+                        >Hard (5x5)</label
+                      >
+                    </div>
+                  </div>
+                </div>
 
-                            <div class="config-actions">
-                                <button type="button" id="cancelConfigBtn" onclick="closeConfiguration()" class="btn btn-secondary">
-                                    Cancel
-                                </button>
-                                <button type="button" id="applyConfigBtn" onclick="applyConfiguration()" class="btn btn-primary">
-                                    Apply & Restart
-                                </button>
-                            </div>
-                        </div>
-                    </section>
-                </section>
-            </div>
-        </main>
+                <div class="config-group">
+                  <h3>Select Image</h3>
+                  <div class="image-selection">
+                    <div class="image-grid">
+                      <div class="image-option">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="image"
+                          id="image1"
+                          value="option1"
+                          checked
+                        />
+                        <label for="image1" class="image-label">
+                          <img
+                            src="img/imges.jpg"
+                            id="img1"
+                            class="thumbnail"
+                            alt="Puzzle image 1"
+                          />
+                        </label>
+                      </div>
+                      <div class="image-option">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="image"
+                          id="image2"
+                          value="option2"
+                        />
+                        <label for="image2" class="image-label">
+                          <img
+                            src="img/imges2.jpg"
+                            id="img2"
+                            class="thumbnail"
+                            alt="Puzzle image 2"
+                          />
+                        </label>
+                      </div>
+                      <div class="image-option">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="image"
+                          id="image3"
+                          value="option3"
+                        />
+                        <label for="image3" class="image-label">
+                          <img
+                            src="img/imges3.jpg"
+                            id="img3"
+                            class="thumbnail"
+                            alt="Puzzle image 3"
+                          />
+                        </label>
+                      </div>
+                      <div class="image-option">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="image"
+                          id="image4"
+                          value="option4"
+                        />
+                        <label for="image4" class="image-label">
+                          <img
+                            src="img/imges4.jpg"
+                            id="img4"
+                            class="thumbnail"
+                            alt="Puzzle image 4"
+                          />
+                        </label>
+                      </div>
+                      <div class="image-option">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="image"
+                          id="image5"
+                          value="option5"
+                        />
+                        <label for="image5" class="image-label">
+                          <img
+                            src="img/imges5.jpg"
+                            id="img5"
+                            class="thumbnail"
+                            alt="Puzzle image 5"
+                          />
+                        </label>
+                      </div>
+                      <div class="image-option">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="image"
+                          id="image6"
+                          value="option6"
+                        />
+                        <label for="image6" class="image-label">
+                          <img
+                            src="img/imges6.jpg"
+                            id="img6"
+                            class="thumbnail"
+                            alt="Puzzle image 6"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-        <footer class="app-footer">
-            <div class="container">
-                <p>&copy; 2025 Racha Cuca. All rights reserved.</p>
-            </div>
-        </footer>
+                <div class="config-actions">
+                  <button
+                    type="button"
+                    id="cancelConfigBtn"
+                    onclick="closeConfiguration()"
+                    class="btn btn-secondary"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    id="applyConfigBtn"
+                    onclick="applyConfiguration()"
+                    class="btn btn-primary"
+                  >
+                    Apply & Restart
+                  </button>
+                </div>
+              </div>
+            </section>
+          </section>
+        </div>
+      </main>
+
+      <footer class="app-footer">
+        <div class="container">
+          <p>&copy; 2025 Racha Cuca. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
 
     <!-- Win Modal -->
-    <div class="modal fade" id="modalGanhouOJogo" aria-hidden="true" aria-labelledby="modalGanhouOJogoLabel" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title" id="modalGanhouOJogoLabel">Congratulations!</h2>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="win-message">
-                        <p>You solved the puzzle!</p>
-                    </div>
-                    <div class="win-stats">
-                        <div class="stat-item">
-                            <span class="stat-name">Moves:</span>
-                            <span id="finalMoves" class="stat-value">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-name">Time:</span>
-                            <span id="finalTime" class="stat-value">00:00</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" onclick="reiniciarJogo()" class="btn btn-primary">Play Again</button>
-                </div>
+    <div
+      class="modal fade"
+      id="modalGanhouOJogo"
+      aria-hidden="true"
+      aria-labelledby="modalGanhouOJogoLabel"
+      tabindex="-1"
+      role="dialog"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="modalGanhouOJogoLabel">
+              Congratulations!
+            </h2>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="win-message">
+              <p>You solved the puzzle!</p>
             </div>
+            <div class="win-stats">
+              <div class="stat-item">
+                <span class="stat-name">Moves:</span>
+                <span id="finalMoves" class="stat-value">0</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-name">Time:</span>
+                <span id="finalTime" class="stat-value">00:00</span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              onclick="reiniciarJogo()"
+              class="btn btn-primary"
+            >
+              Play Again
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <script src="JS/jquery-3.6.0.min.js"></script>
     <script src="JS/bootstrap.min.js"></script>
     <script src="JS/main.js"></script>
-</body>
+  </body>
 </html>
