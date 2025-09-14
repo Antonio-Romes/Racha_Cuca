@@ -53,21 +53,19 @@ class SlidingPuzzleGame {
     //this.startTimer();
   }
 
-  // Open configuration panel
+  // Open configuration modal
   openConfiguration() {
-    const configPanel = document.getElementById("secaoConfiguracao");
-    configPanel.removeAttribute("hidden");
+    $('#configurationModal').modal('show');
   }
 
-  // Close configuration panel
+  // Close configuration modal
   closeConfiguration() {
-    const configPanel = document.getElementById("secaoConfiguracao");
-    configPanel.setAttribute("hidden", "true");
+    $('#configurationModal').modal('hide');
   }
 
   // Apply configuration and restart game
   applyConfiguration() {
-    // Close configuration panel
+    // Close configuration modal
     this.closeConfiguration();
 
     // Restart game with new settings
@@ -536,7 +534,7 @@ class SlidingPuzzleGame {
         img.setAttribute("data-row", i);
         img.setAttribute("data-col", j);
         img.setAttribute("data-image-position", pieces[index].imagePosition);
-        img.setAttribute("alt", `Puzzle piece at position ${i},${j}`);
+        //img.setAttribute("alt", `Puzzle piece at position ${i},${j}`);
 
         // Add visual indicator for empty cells
         if (pieces[index].src === "") {
@@ -671,4 +669,14 @@ class SlidingPuzzleGame {
 // Initialize the game when the page loads
 document.addEventListener("DOMContentLoaded", () => {
   window.slidingPuzzleGame = new SlidingPuzzleGame();
+  
+  // Add event listener for the Apply & Restart button in the modal
+  const applyConfigBtn = document.getElementById('applyConfigBtn');
+  if (applyConfigBtn) {
+    applyConfigBtn.addEventListener('click', () => {
+      if (window.slidingPuzzleGame) {
+        window.slidingPuzzleGame.applyConfiguration();
+      }
+    });
+  }
 });

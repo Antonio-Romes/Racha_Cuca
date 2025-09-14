@@ -83,7 +83,6 @@ body {
 }
 
 /* Panels */
-.config-panel,
 .game-panel {
   background: rgba(255, 255, 255, 0.95);
   border-radius: var(--border-radius);
@@ -109,15 +108,6 @@ body {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 500;
-}
-
-.config-content {
-  padding: 1.5rem;
-}
-
-/* Configuration Panel */
-.config-panel[hidden] {
-  display: none;
 }
 
 /* Configuration Styles */
@@ -196,14 +186,6 @@ body {
   object-fit: cover;
   display: block;
   border-radius: var(--border-radius);
-}
-
-.config-actions {
-  text-align: center;
-  margin-top: 2rem;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
 }
 
 /* Game Board */
@@ -415,23 +397,23 @@ body {
 
 /* Header Controls */
 .header-controls {
+  width: 100%;
   display: flex;
   gap: 0.75rem;
-  align-items: center;
+  justify-content: center;
 }
 
 .header-stats {
   display: flex;
-  align-items: center;
-  padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: var(--border-radius);
 }
 
 .header-stat {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius);
+  padding: 0.5rem;
+  margin: 0rem 0.5rem;
 }
 
 .stat-label {
