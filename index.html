@@ -30,11 +30,11 @@
                 <div class="header-controls">
                   <div class="header-stats">
                     <span class="header-stat">
-                      <span class="stat-label">Moves:</span>
+                      <span class="stat-label">Movimentos:</span>
                       <span id="contadorDeJogada" class="stat-value">0</span>
                     </span>
                     <span class="header-stat">
-                      <span class="stat-label">Time:</span>
+                      <span class="stat-label">Tempo:</span>
                       <span id="timer" class="stat-value">00:00</span>
                     </span>
                   </div>
@@ -45,7 +45,7 @@
                     class="btn btn-warning header-btn"
                     aria-label="Restart game"
                   >
-                    Restart
+                    Reiniciar
                   </button>
 
                   <button
@@ -55,7 +55,7 @@
                     class="btn btn-info header-btn"
                     aria-label="Show help image"
                   >
-                    Show Solution
+                    Mostrar solução
                   </button>
 
                   <button
@@ -65,7 +65,7 @@
                     class="btn btn-config header-btn"
                     aria-label="Open configuration"
                   >
-                    <span class="config-icon">⚙️</span> Settings
+                    <span class="config-icon">⚙️</span> Configurações
                   </button>
                 </div>
               </div>
@@ -95,7 +95,7 @@
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="configurationModalLabel">
-                      Game Configuration
+                      Configuração do jogo
                     </h5>
                     <button
                       type="button"
@@ -106,7 +106,7 @@
                   </div>
                   <div class="modal-body">
                     <div class="config-group">
-                      <h3>Difficulty Level</h3>
+                      <h3>Nível de dificuldade</h3>
                       <div class="difficulty-options">
                         <div class="form-check">
                           <input
@@ -118,7 +118,7 @@
                             checked
                           />
                           <label class="form-check-label" for="rdoFacil"
-                            >Easy (3x3)</label
+                            >Fácil (3x3)</label
                           >
                         </div>
                         <div class="form-check">
@@ -142,14 +142,14 @@
                             value="5"
                           />
                           <label class="form-check-label" for="rdoDificil"
-                            >Hard (5x5)</label
+                            >Difícil (5x5)</label
                           >
                         </div>
                       </div>
                     </div>
 
                     <div class="config-group">
-                      <h3>Select Image</h3>
+                      <h3>Selecionar imagem</h3>
                       <div class="image-selection">
                         <div class="image-grid">
                           <div class="image-option">
@@ -265,14 +265,14 @@
                       class="btn btn-secondary"
                       data-bs-dismiss="modal"
                     >
-                      Cancel
+                      Sair
                     </button>
                     <button
                       type="button"
                       class="btn btn-primary"
                       id="applyConfigBtn"
                     >
-                      Apply & Restart
+                      Aplicar e Reiniciar
                     </button>
                   </div>
                 </div>
@@ -284,7 +284,7 @@
 
       <footer class="app-footer">
         <div class="container">
-          <p>&copy; 2025 Racha Cuca. All rights reserved.</p>
+          <p>&copy; 2025 Racha Cuca. Todos os direitos reservados.</p>
         </div>
       </footer>
     </div>
@@ -301,9 +301,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h2 class="modal-title" id="modalGanhouOJogoLabel">
-              Congratulations!
-            </h2>
+            <h2 class="modal-title" id="modalGanhouOJogoLabel">Parabéns!</h2>
             <button
               type="button"
               class="btn-close"
@@ -313,15 +311,15 @@
           </div>
           <div class="modal-body">
             <div class="win-message">
-              <p>You solved the puzzle!</p>
+              <p>Você resolveu o quebra-cabeça!</p>
             </div>
             <div class="win-stats">
               <div class="stat-item">
-                <span class="stat-name">Moves:</span>
+                <span class="stat-name">Movimentos:</span>
                 <span id="finalMoves" class="stat-value">0</span>
               </div>
               <div class="stat-item">
-                <span class="stat-name">Time:</span>
+                <span class="stat-name">Tempo:</span>
                 <span id="finalTime" class="stat-value">00:00</span>
               </div>
             </div>
@@ -332,14 +330,14 @@
               class="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              Close
+              Fechar
             </button>
             <button
               type="button"
               onclick="reiniciarJogo()"
               class="btn btn-primary"
             >
-              Play Again
+              Jogar novamente
             </button>
           </div>
         </div>
