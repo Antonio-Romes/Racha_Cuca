@@ -393,9 +393,15 @@ class SlidingPuzzleGame {
 
   // Toggle help image
   toggleHelpImage() {
-    const imageAjuda = document.getElementById("imageAjuda");
-    imageAjuda.toggleAttribute("hidden");
-    imageAjuda.src = this.currentImageSrc;
+    // Get the solution image modal and image element
+    const solutionImage = document.getElementById("solutionImage");
+    const solutionModal = new bootstrap.Modal(document.getElementById("solutionImageModal"));
+    
+    // Set the source of the solution image to the current image
+    solutionImage.src = this.currentImageSrc;
+    
+    // Show the modal
+    solutionModal.show();
   }
 
   // Clear the game board
