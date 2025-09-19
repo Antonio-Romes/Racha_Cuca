@@ -55,12 +55,12 @@ class SlidingPuzzleGame {
 
   // Open configuration modal
   openConfiguration() {
-    $('#configurationModal').modal('show');
+    $("#configurationModal").modal("show");
   }
 
   // Close configuration modal
   closeConfiguration() {
-    $('#configurationModal').modal('hide');
+    $("#configurationModal").modal("hide");
   }
 
   // Apply configuration and restart game
@@ -203,7 +203,7 @@ class SlidingPuzzleGame {
       // Place pieces in their saved positions
       gameState.pieces.forEach((piece) => {
         const cell = board.rows[piece.row].cells[piece.col];
-        
+
         // Only create image element if it's not an empty piece
         if (piece.src !== "") {
           const img = document.createElement("img");
@@ -235,7 +235,7 @@ class SlidingPuzzleGame {
       this.updateTimerDisplay();
 
       // Start timer
-      //this.startTimer();
+      this.startTimer();
 
       // Set focus to saved position
       this.focusCell(this.currentRow, this.currentCol);
@@ -388,6 +388,7 @@ class SlidingPuzzleGame {
     this.createBoardWithImage();
     this.resetMoveCounter();
     this.resetTimer();
+    this.startTimer();
   }
 
   // Toggle help image
@@ -416,7 +417,6 @@ class SlidingPuzzleGame {
     const moveCounterSpan = document.getElementById("contadorDeJogada");
     moveCounterSpan.textContent = this.moves;
     this.updateTimerDisplay();
-    this.startTimer();
   }
 
   // Reset timer
@@ -497,7 +497,11 @@ class SlidingPuzzleGame {
             : canvas.toDataURL();
         // Add a flag to indicate empty pieces
         const isEmpty = i === boardDimension - 1 && j === boardDimension - 1;
-        pieces.push({ imagePosition: imagePosition, src: imageUrl, isEmpty: isEmpty });
+        pieces.push({
+          imagePosition: imagePosition,
+          src: imageUrl,
+          isEmpty: isEmpty,
+        });
         imagePosition += boardDimension;
       }
     }
@@ -616,7 +620,10 @@ class SlidingPuzzleGame {
         adjacentCell.appendChild(clickedImg);
 
         // Update moved image's position attributes
-        clickedImg.setAttribute("data-row", adjacentCell.parentElement.rowIndex);
+        clickedImg.setAttribute(
+          "data-row",
+          adjacentCell.parentElement.rowIndex
+        );
         clickedImg.setAttribute("data-col", adjacentCell.cellIndex);
 
         // Update the image position attribute to match the new location
@@ -683,11 +690,11 @@ class SlidingPuzzleGame {
 // Initialize the game when the page loads
 document.addEventListener("DOMContentLoaded", () => {
   window.slidingPuzzleGame = new SlidingPuzzleGame();
-  
+
   // Add event listener for the Apply & Restart button in the modal
-  const applyConfigBtn = document.getElementById('applyConfigBtn');
+  const applyConfigBtn = document.getElementById("applyConfigBtn");
   if (applyConfigBtn) {
-    applyConfigBtn.addEventListener('click', () => {
+    applyConfigBtn.addEventListener("click", () => {
       if (window.slidingPuzzleGame) {
         window.slidingPuzzleGame.applyConfiguration();
       }
