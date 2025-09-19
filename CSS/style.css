@@ -264,33 +264,6 @@ body {
   margin: 0;
 }
 
-/* Empty cell styling */
-.parte-imagem.empty-cell {
-  background-color: #f0f0f0;
-  background-image: repeating-linear-gradient(
-    45deg,
-    #e0e0e0,
-    #e0e0e0 10px,
-    #f0f0f0 10px,
-    #f0f0f0 20px
-  );
-  position: relative;
-}
-
-.parte-imagem.empty-cell::after {
-  content: "Empty";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #666;
-  font-weight: bold;
-  font-size: 16px;
-  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
-}
-
-/* Removed: Game Footer and Stats Card Styles */
-
 /* Buttons */
 .btn {
   padding: 0.75rem 1.5rem;
@@ -595,8 +568,6 @@ body {
     padding-bottom: 100%;
   }
 
-  /* Removed: Responsive game-footer styles */
-
   .btn {
     flex: 1;
     min-width: 100px;
@@ -634,8 +605,6 @@ body {
   .board-wrapper {
     padding-bottom: 100%;
   }
-
-  /* Removed: Small screen stat-card styles */
 
   .btn-lg {
     padding: 0.8rem 1.5rem;

@@ -116,13 +116,22 @@ class SlidingPuzzleGame {
       for (let i = 0; i < rows.length; i++) {
         const cells = rows[i].cells;
         for (let j = 0; j < cells.length; j++) {
-          const img = cells[j].querySelector(".parte-imagem");
-          if (img) {
+          // Check if cell has an image element
+          if (cells[j].children.length > 0) {
+            const img = cells[j].children[0];
             gameState.pieces.push({
               src: img.src,
               row: i,
               col: j,
               imagePosition: img.getAttribute("data-image-position"),
+            });
+          } else {
+            // Empty cell (no image element)
+            gameState.pieces.push({
+              src: "",
+              row: i,
+              col: j,
+              imagePosition: i * this.boardSize + j,
             });
           }
         }
@@ -194,27 +203,26 @@ class SlidingPuzzleGame {
       // Place pieces in their saved positions
       gameState.pieces.forEach((piece) => {
         const cell = board.rows[piece.row].cells[piece.col];
-        const img = document.createElement("img");
-        img.src = piece.src;
-        img.className = "parte-imagem";
-        img.setAttribute("data-row", piece.row);
-        img.setAttribute("data-col", piece.col);
-        img.setAttribute("data-image-position", piece.imagePosition);
-        img.setAttribute(
-          "alt",
-          `Puzzle piece at position ${piece.row},${piece.col}`
-        );
+        
+        // Only create image element if it's not an empty piece
+        if (piece.src !== "") {
+          const img = document.createElement("img");
+          img.src = piece.src;
+          img.className = "parte-imagem";
+          img.setAttribute("data-row", piece.row);
+          img.setAttribute("data-col", piece.col);
+          img.setAttribute("data-image-position", piece.imagePosition);
+          img.setAttribute(
+            "alt",
+            `Puzzle piece at position ${piece.row},${piece.col}`
+          );
 
-        // Add visual indicator for empty cells
-        if (piece.src === "") {
-          img.classList.add("empty-cell");
+          img.addEventListener("click", (event) => {
+            this.handleImageClick(event);
+          });
+
+          cell.appendChild(img);
         }
-
-        img.addEventListener("click", (event) => {
-          this.handleImageClick(event);
-        });
-
-        cell.appendChild(img);
       });
 
       // Update move counter
@@ -487,7 +495,9 @@ class SlidingPuzzleGame {
           i === boardDimension - 1 && j === boardDimension - 1
             ? ""
             : canvas.toDataURL();
-        pieces.push({ imagePosition: imagePosition, src: imageUrl });
+        // Add a flag to indicate empty pieces
+        const isEmpty = i === boardDimension - 1 && j === boardDimension - 1;
+        pieces.push({ imagePosition: imagePosition, src: imageUrl, isEmpty: isEmpty });
         imagePosition += boardDimension;
       }
     }
@@ -528,24 +538,23 @@ class SlidingPuzzleGame {
         const cell = document.createElement("td");
         cell.setAttribute("data-cell-position", index);
 
-        const img = document.createElement("img");
-        img.src = pieces[index].src;
-        img.className = "parte-imagem";
-        img.setAttribute("data-row", i);
-        img.setAttribute("data-col", j);
-        img.setAttribute("data-image-position", pieces[index].imagePosition);
-        //img.setAttribute("alt", `Puzzle piece at position ${i},${j}`);
+        // Only create image element if it's not an empty piece
+        if (!pieces[index].isEmpty) {
+          const img = document.createElement("img");
+          img.src = pieces[index].src;
+          img.className = "parte-imagem";
+          img.setAttribute("data-row", i);
+          img.setAttribute("data-col", j);
+          img.setAttribute("data-image-position", pieces[index].imagePosition);
+          //img.setAttribute("alt", `Puzzle piece at position ${i},${j}`);
 
-        // Add visual indicator for empty cells
-        if (pieces[index].src === "") {
-          img.classList.add("empty-cell");
+          img.addEventListener("click", (event) => {
+            this.handleImageClick(event);
+          });
+
+          cell.appendChild(img);
         }
 
-        img.addEventListener("click", (event) => {
-          this.handleImageClick(event);
-        });
-
-        cell.appendChild(img);
         row.appendChild(cell);
         index++;
       }
@@ -593,31 +602,32 @@ class SlidingPuzzleGame {
   swapImagePosition(cell, adjacentCell) {
     if (adjacentCell !== null) {
       const adjacentImg = adjacentCell.children[0];
-      if (adjacentImg && adjacentImg.src === "") {
+      // Check if adjacent cell is empty (no image element)
+      if (!adjacentImg) {
         // Get data from clicked image
         const clickedImg = cell.children[0];
         const clickedImgSrc = clickedImg.src;
         const clickedImgPosition = clickedImg.getAttribute(
           "data-image-position"
         );
-        const adjacentImgPosition = adjacentImg.getAttribute(
-          "data-image-position"
-        );
+        const adjacentImgPosition = clickedImgPosition;
 
-        // Swap images
-        adjacentImg.src = clickedImgSrc;
-        adjacentImg.setAttribute("data-image-position", clickedImgPosition);
-        // Remove empty cell class from adjacent cell and add to clicked cell
-        adjacentImg.classList.remove("empty-cell");
+        // Move image to adjacent cell
+        adjacentCell.appendChild(clickedImg);
 
-        clickedImg.src = "";
+        // Update moved image's position attributes
+        clickedImg.setAttribute("data-row", adjacentCell.parentElement.rowIndex);
+        clickedImg.setAttribute("data-col", adjacentCell.cellIndex);
+
+        // Update the image position attribute to match the new location
         clickedImg.setAttribute("data-image-position", adjacentImgPosition);
-        // Add empty cell class to clicked cell
-        clickedImg.classList.add("empty-cell");
+
+        // Create empty cell where image was
+        cell.innerHTML = "";
 
         // Update focus to the moved piece
-        const newRow = parseInt(adjacentImg.getAttribute("data-row"));
-        const newCol = parseInt(adjacentImg.getAttribute("data-col"));
+        const newRow = parseInt(clickedImg.getAttribute("data-row"));
+        const newCol = parseInt(clickedImg.getAttribute("data-col"));
         this.focusCell(newRow, newCol);
       }
     }
@@ -632,17 +642,21 @@ class SlidingPuzzleGame {
       const cells = rows[i].getElementsByTagName("td");
       for (let j = 0; j < cells.length; j++) {
         const cellPosition = cells[j].getAttribute("data-cell-position");
-        const imagePosition = cells[j].children[0].getAttribute(
-          "data-image-position"
-        );
 
-        // Empty cell should be at the last position
-        if (cells[j].children[0].src === "") {
+        // Check if cell is empty (no image element)
+        if (cells[j].children.length === 0) {
+          // Empty cell should be at the last position
           if (parseInt(cellPosition) !== this.boardSize * this.boardSize - 1) {
             return false;
           }
-        } else if (parseInt(cellPosition) !== parseInt(imagePosition)) {
-          return false;
+        } else {
+          // Cell has image, check position
+          const imagePosition = cells[j].children[0].getAttribute(
+            "data-image-position"
+          );
+          if (parseInt(cellPosition) !== parseInt(imagePosition)) {
+            return false;
+          }
         }
       }
     }
